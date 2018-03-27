@@ -56,7 +56,7 @@ function buildErrorResponse() {
 function buildResponse($metarJson, $airportCode, $airportFullName, $airportCity) {
 		
 	// If the name of the airport contains the name of the city, just use the name of the airport
-	if (strpos( strtolower($airportFullName), strtolower($airportCity)) ) {
+	if ( strpos( strtolower($airportFullName), strtolower($airportCity)) !== false ) {
 		$response_airportName = $airportFullName;
 	}
 	else {
