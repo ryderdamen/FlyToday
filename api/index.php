@@ -14,6 +14,7 @@ $json = file_get_contents('php://input');
 
 // If we don't have anything, it's not a _POST, so just die silently
 if ($json == '') {
+	header('Location: https://ryderdamen.com/projects/fly-today/');
 	die;
 }
 
