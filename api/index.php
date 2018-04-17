@@ -18,11 +18,14 @@ if ($json == '') {
 	die;
 }
 
+
+
 // Otherwise, let's decode this and grab some variables
 $action = json_decode($json, true);
 $airportCode = $action['result']['parameters']['airport']['ICAO'];
 $airportFullName = $action['result']['parameters']['airport']['name'];
 $airportCity = $action['result']['parameters']['airport']['city'];
+
 
 // Now, let's call the AVWX API and get the METAR data
 $metarJson = getMetar($airportCode);
