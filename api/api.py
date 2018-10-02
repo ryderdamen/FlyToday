@@ -3,6 +3,7 @@
 """
 import requests
 import json
+import yaml
 from bs4 import BeautifulSoup
 
 
@@ -45,6 +46,16 @@ def _parse_metar_to_dict(aviation_gov_soup):
         if tag.name and tag.string:
             dictionary[tag.name] = tag.string
     return dictionary
+
+
+def get_response(type, speech_or_text, key):
+    """Gets a response from the YAML dictionary 
+    
+    Arguments:
+        type {[type]} -- [description]
+        speech_or_text {[type]} -- [description]
+        key {[type]} -- [description]
+    """
 
 
 def _get_flight_category(metar_dict, airport):
