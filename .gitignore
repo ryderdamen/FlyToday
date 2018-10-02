@@ -1,2 +1,6 @@
 **/*.DS_Store
-sampleRequest.txt
+**/sampleRequest.txt
+*.pyc
+.pytest_cache
+**/__pycache__
+env/

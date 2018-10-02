@@ -1,0 +1,22 @@
+<METAR>
+<raw_text>
+CYYZ 022100Z 34008KT 1 1/2SM -DZ BR SCT002 OVC004 13/12 A2995 RMK SF3ST5 SLP145
+</raw_text>
+<station_id>CYYZ</station_id>
+<observation_time>2018-10-02T21:00:00Z</observation_time>
+<latitude>43.67</latitude>
+<longitude>-79.62</longitude>
+<temp_c>13.0</temp_c>
+<dewpoint_c>12.0</dewpoint_c>
+<wind_dir_degrees>340</wind_dir_degrees>
+<wind_speed_kt>8</wind_speed_kt>
+<visibility_statute_mi>1.5</visibility_statute_mi>
+<altim_in_hg>29.949802</altim_in_hg>
+<sea_level_pressure_mb>1014.5</sea_level_pressure_mb>
+<wx_string>-DZ BR</wx_string>
+<sky_condition sky_cover="SCT" cloud_base_ft_agl="200"/>
+<sky_condition sky_cover="OVC" cloud_base_ft_agl="400"/>
+<flight_category>LIFR</flight_category>
+<metar_type>METAR</metar_type>
+<elevation_m>173.0</elevation_m>
+</METAR>

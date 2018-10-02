@@ -5,7 +5,7 @@
 
 
 ## About
-This project uses the [AVWX Rest API](http://avwx.rest) by [Michael duPont](http://mdupont.com/) as it's source of aviation information. I thought about creating my own API based on the Canadian AWS, but that's way too complicated and time consuming, and this one is pretty amazing.
+This project uses [aviationweather.gov](http://www.aviationweather.gov) as it's source of aviation information.
 
 ## Using it
 To activate it, you can say something like this to your Google Assistant enabled device:
@@ -22,5 +22,5 @@ Sure, here's Fly Today.
 It's looking like low IFR right now at Lester B. Pearson International, Toronto.
 `````
 
-
-
+## Project History
+Originally built in PHP, I migrated this project to python so I could run it in a serverless environment and never worry about devops. It now runs as a Google Cloud Function.
