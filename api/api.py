@@ -3,7 +3,6 @@
 """
 import requests
 import json
-import yaml
 from bs4 import BeautifulSoup
 
 
