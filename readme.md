@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/ryderdamen/FlyToday.svg?style=shield)](https://circleci.com/gh/ryderdamen/FlyToday)
 # Fly Today
 [Fly today](https://ryderdamen.com/projects/fly-today) is a google assistant action that lets you know if it's VFR or IFR at an airport of your choice. For those who don't know what this means, it's pilot weather. VFR means it's Visual Flight Rules, so pilots without instrument training can fly. IFR means the weather sucks, so only pilots with specific instrument training can fly.
 
