@@ -1,10 +1,10 @@
 FlightConditions:
     IFR:
       speech: It looks like it's IFR right now.
-      text: It looks like IFR right now at {airport}. 🙁
+      text: It looks like IFR right now at {airport}.
     VFR:
       speech: It's VFR, let's go flying!
-      text: Good news! It's VFR right now at {airport}. 🛩
+      text: Good news! It's VFR right now at {airport}.
     LIFR:
       speech: It's looking like low IFR.
       text: It's looking like low IFR right now at {airport}.

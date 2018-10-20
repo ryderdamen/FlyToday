@@ -1,9 +1,22 @@
 """ index.py - Fly Today Web Fufillment Handler
     With a specified airport code, retrieves and returns the weather
 """
+# -*- coding: utf-8 -*-
+import os
 import requests
 import json
 from bs4 import BeautifulSoup
+import yaml
+import logging
+
+
+def get_standard_error_message():
+    """Returns a standard error message
+    
+    Returns:
+        string -- The standard error message
+    """
+    return "Sorry, we couldn't get the weather right now, try again soon."
 
 
 def _get_weather_from_aviation_gov(icao_code, **kwargs):
@@ -47,14 +60,23 @@ def _parse_metar_to_dict(aviation_gov_soup):
     return dictionary
 
 
-def get_response(type, speech_or_text, key):
+def get_response(category, speech_or_text, key):
     """Gets a response from the YAML dictionary 
     
     Arguments:
-        type {[type]} -- [description]
-        speech_or_text {[type]} -- [description]
-        key {[type]} -- [description]
+        category {string} -- Category of the response (base of the yaml file)
+        speech_or_text {string} -- "speech" or "text"
+        key {string} -- The key of the response (example "IFR")
     """
+    responses_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'responses.yaml')
+    print(responses_path)
+    with open(responses_path, 'r') as yaml_responses:
+        try:
+            responses = yaml.load(yaml_responses)
+            return responses[category][key][speech_or_text]
+        except yaml.YAMLError as exc:
+            print(exc)
+            logging.error(exc)
 
 
 def _get_flight_category(metar_dict, airport):
@@ -67,9 +89,8 @@ def _get_flight_category(metar_dict, airport):
     Returns:
         string -- Text response for the user
     """
-
     if not 'flight_category' in metar_dict:
-        return "Sorry, we couldn't get the weather right now, try again soon."
+        return get_standard_error_message()
     response_dictionary = {
         "LIFR": "It's looking like low IFR right now at {airport}.",
         "IFR": "It's looking like IFR right now at {airport}.",
@@ -85,9 +106,41 @@ def _get_flight_category(metar_dict, airport):
     return response.format(**locals())
 
 
+def _get_icao_code_from_dialogflow(request_dictionary):
+    """Returns the ICAO code or None from the request dictionary
+    
+    Arguments:
+        request_dictionary {dict} -- The JSON request object from DF as a dictionary
+    
+    Returns:
+        String|None -- The ICAO code string, or None
+    """
+    try:
+        return request_dictionary['result']['parameters']['airport']['ICAO']
+    except KeyError as e:
+        return None
+
+
+def _get_airport_name_from_dialogflow(request_dictionary):
+    """Returns the airport name or None from the request dictionary
+    
+     Arguments:
+        request_dictionary {dict} -- The JSON request object from DF as a dictionary
+    
+    Returns:
+        String|None -- The airport name string, or None
+    """
+    try:
+        return request_dictionary['result']['parameters']['airport']['name']
+    except KeyError as e:
+        return None
+
+
 def _build_text_response(request_json):
-    icao_code = request_json['queryResult']['parameters']['airport']['ICAO']
-    airport_name = request_json['queryResult']['parameters']['airport']['name']
+    icao_code = _get_icao_code_from_dialogflow(request_json)
+    airport_name = _get_airport_name_from_dialogflow(request_json)
+    if not icao_code:
+        return get_standard_error_message()
     bs_data = _get_weather_from_aviation_gov(icao_code)
     metar_dict = _parse_metar_to_dict(bs_data)
     return _get_flight_category(metar_dict, airport_name)
