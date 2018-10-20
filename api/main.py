@@ -4,8 +4,6 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-# Fix for BS4
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lib'))
 from bs4 import BeautifulSoup
 import requests
 import json
