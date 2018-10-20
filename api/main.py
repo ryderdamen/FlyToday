@@ -10,7 +10,7 @@ import yaml
 import logging
 
 
-def get_standard_error_message():
+def _get_standard_error_message():
     """Returns a standard error message
     
     Returns:
@@ -60,7 +60,7 @@ def _parse_metar_to_dict(aviation_gov_soup):
     return dictionary
 
 
-def get_response(category, speech_or_text, key):
+def _get_response(category, speech_or_text, key):
     """Gets a response from the YAML dictionary 
     
     Arguments:
@@ -90,7 +90,7 @@ def _get_flight_category(metar_dict, airport):
         string -- Text response for the user
     """
     if not 'flight_category' in metar_dict:
-        return get_standard_error_message()
+        return _get_standard_error_message()
     response_dictionary = {
         "LIFR": "It's looking like low IFR right now at {airport}.",
         "IFR": "It's looking like IFR right now at {airport}.",
@@ -140,7 +140,7 @@ def _build_text_response(request_json):
     icao_code = _get_icao_code_from_dialogflow(request_json)
     airport_name = _get_airport_name_from_dialogflow(request_json)
     if not icao_code:
-        return get_standard_error_message()
+        return _get_standard_error_message()
     bs_data = _get_weather_from_aviation_gov(icao_code)
     metar_dict = _parse_metar_to_dict(bs_data)
     return _get_flight_category(metar_dict, airport_name)

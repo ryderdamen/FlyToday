@@ -3,7 +3,7 @@ import os
 sys.path.insert(0, (
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-from api import api
+from api import main as api
 from bs4 import BeautifulSoup
 import json
 
@@ -46,7 +46,7 @@ def test_can_get_flight_category():
 
 def test_can_open_yaml_responses():
     """ Tests the api can open and parse YAML-stored responses """
-    yaml_response = api.get_response('FlightConditions', 'speech', 'VFR')
+    yaml_response = api._get_response('FlightConditions', 'speech', 'VFR')
     expected = "It's VFR, let's go flying!"
     assert yaml_response == expected
 
@@ -77,6 +77,6 @@ def test_end_to_end_api():
     
     response = api.main(RequestTest())
     error = {
-        'fufillmentText': api.get_standard_error_message()
+        'fufillmentText': api._get_standard_error_message()
     }
     assert response != json.dumps(error)
