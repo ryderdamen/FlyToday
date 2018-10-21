@@ -117,7 +117,7 @@ def _get_icao_code_from_dialogflow(request_dictionary):
         String|None -- The ICAO code string, or None
     """
     try:
-        return request_dictionary['result']['parameters']['airport']['ICAO']
+        return request_dictionary['queryResult']['parameters']['airport']['ICAO']
     except KeyError as e:
         return None
 
@@ -132,7 +132,7 @@ def _get_airport_name_from_dialogflow(request_dictionary):
         String|None -- The airport name string, or None
     """
     try:
-        return request_dictionary['result']['parameters']['airport']['name']
+        return request_dictionary['queryResult']['parameters']['airport']['name']
     except KeyError as e:
         return None
 
