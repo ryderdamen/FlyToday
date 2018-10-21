@@ -4,7 +4,6 @@
 
 ![Fly Today Logo](assets/banner-01.png)
 
-
 ## About
 This project uses [aviationweather.gov](http://www.aviationweather.gov) as it's source of aviation information.
 
@@ -25,3 +24,6 @@ It's looking like low IFR right now at Lester B. Pearson International, Toronto.
 
 ## Project History
 Originally built in PHP, I migrated this project to python so I could run it in a serverless environment and never worry about devops. It now runs as a Google Cloud Function.
+
+## Contributions
+Contributions are welcome, feel free to submit a PR to add a feature.
