@@ -188,8 +188,6 @@ def _build_text_response(request_json):
         return _get_flight_category(metar_dict, airport_name)
     elif intent == "get_elevation":
         return _get_flight_category(metar_dict, airport_name)
-    elif intent == ""
-        return _get_flight_category(metar_dict, airport_name)
     return _get_standard_error_message()
 
 
