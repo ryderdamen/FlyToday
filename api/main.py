@@ -152,9 +152,6 @@ def _get_intent(request_dictionary):
         return None
 
 
-def b
-
-
 def _build_text_response(request_json):
     """Builds the text response from the request
     
