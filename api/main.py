@@ -118,7 +118,7 @@ def _get_icao_code_from_dialogflow(request_dictionary):
     """
     try:
         return request_dictionary['queryResult']['parameters']['airport']['ICAO']
-    except KeyError as e:
+    except KeyError:
         return None
 
 
@@ -133,22 +133,78 @@ def _get_airport_name_from_dialogflow(request_dictionary):
     """
     try:
         return request_dictionary['queryResult']['parameters']['airport']['name']
-    except KeyError as e:
+    except KeyError:
         return None
 
 
+def _get_intent(request_dictionary):
+    """Gets the intent of the current conversation
+    
+    Arguments:
+        request_dictionary {dict} -- The JSON request object from DF as a dictionary
+    
+    Returns:
+        String - Intent of the conversation
+    """
+    try:
+        return request_dictionary['intent']['displayName']
+    except KeyError:
+        return None
+
+
+def b
+
+
 def _build_text_response(request_json):
+    """Builds the text response from the request
+    
+    Arguments:
+        request_json {dict} -- The dictionary request object
+    
+    Returns:
+        string -- The string reponse message
+    """
+
     icao_code = _get_icao_code_from_dialogflow(request_json)
     airport_name = _get_airport_name_from_dialogflow(request_json)
+    intent = _get_intent(request_json)
     if not icao_code:
         return _get_standard_error_message()
+    
+    # Call Aviation.gov
     bs_data = _get_weather_from_aviation_gov(icao_code)
     metar_dict = _parse_metar_to_dict(bs_data)
-    return _get_flight_category(metar_dict, airport_name)
+    if not metar_dict:
+        return _get_standard_error_message()
+
+    intents = [
+        'get_flight_category',
+        'get_wind_speed',
+        'get_elevation',
+        'get_temperature',
+    ]
+
+    # Parse and return intent responses
+    if intent == "get_flight_category":
+        return _get_flight_category(metar_dict, airport_name)
+    elif intent == "get_wind_speed":
+        return _get_flight_category(metar_dict, airport_name)
+    elif intent == "get_elevation":
+        return _get_flight_category(metar_dict, airport_name)
+    elif intent == ""
+        return _get_flight_category(metar_dict, airport_name)
+    return _get_standard_error_message()
 
 
 def main(request):
-    response = _build_text_response(request.get_json())
+    """Handles the main logic of the webhook
+    
+    Arguments:
+        request {request} -- The request object as provided by GCF
+    
+    Returns:
+        String -- A JSON response
+    """
     return json.dumps({
-        'fufillmentText': response
+        'fulfillmentText': _build_text_response(request.get_json())
     })
