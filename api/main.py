@@ -107,6 +107,35 @@ def _get_flight_category(metar_dict, airport):
     return response.format(**locals())
 
 
+def _get_wind_information(metar_dict, airport):
+    wind_speed = metar_dict['wind_speed_kt']
+    wind_dir = metar_dict['wind_dir_degrees']
+    response = "At {airport}, the wind is currently {wind_speed} knots at {wind_dir} degrees.".format(**locals())
+    return response
+
+
+def _get_visibility(metar_dict, airport):
+    stat_miles_to_km = 1.609344
+    visibility = metar_dict['visibility_statute_mi']
+    visibility_km = round(visibility * stat_miles_to_km, 1)
+    return "Visibility is looking around {visibility} statute miles ({visibility_km} km)".format(**locals())
+
+
+def _get_altimeter(metar_dict, airport):
+    alt = metar_dict['altim_in_hg']
+    return "You're looking at {alt} mmHg".format(**locals())
+
+
+def _get_temperature(metar_dict, airport):
+    temp = metar_dict['temp_c']
+    return "It's currently {temp} degrees Celsius at {airport}".format(**locals())
+
+
+def _get_metar_raw(metar_dict, airport):
+    raw = metar_dict['raw_text']
+    return raw
+
+
 def _get_icao_code_from_dialogflow(request_dictionary):
     """Returns the ICAO code or None from the request dictionary
     
