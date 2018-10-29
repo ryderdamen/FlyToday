@@ -177,7 +177,7 @@ def _get_intent(request_dictionary):
         String - Intent of the conversation
     """
     try:
-        return request_dictionary['intent']['displayName']
+        return request_dictionary['queryResult']['intent']['displayName']
     except KeyError:
         return None
 
@@ -207,19 +207,21 @@ def _build_text_response(request_json):
         return _get_standard_error_message()
 
     intents = [
-        'get_flight_category',
+        'get_flight_condition',
         'get_wind_speed',
         'get_elevation',
         'get_temperature',
     ]
 
     # Parse and return intent responses
-    if intent == "get_flight_category":
+    if intent == "get_flight_condition":
         return _get_flight_category(metar_dict, airport_name)
     elif intent == "get_wind_speed":
         return _get_flight_category(metar_dict, airport_name)
     elif intent == "get_elevation":
         return _get_flight_category(metar_dict, airport_name)
+    if not intent:
+        intent = "No Intent"
     logging.error('An unexpected intent occured: ' + intent)
     return _get_standard_error_message()
 
