@@ -3,7 +3,7 @@ import os
 sys.path.insert(0, (
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-from api import main as api
+from src import main as api
 from bs4 import BeautifulSoup
 import json
 
