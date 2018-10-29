@@ -3,7 +3,7 @@ import os
 sys.path.insert(0, (
     os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-from api import main as api
+from src import main as api
 from bs4 import BeautifulSoup
 import json
 
@@ -80,3 +80,10 @@ def test_end_to_end_api():
         'fufillmentText': api._get_standard_error_message()
     }
     assert response != json.dumps(error)
+
+
+def test_get_intent():
+    """ Tests the intent can be successfully retrieved"""
+    request_dictionary = load_sample_dialogflow_request()
+    intent = api._get_intent(request_dictionary)
+    assert intent == "get_weather"

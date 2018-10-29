@@ -9,6 +9,6 @@ pluggy==0.7.1
 py==1.6.0
 pytest==3.8.1
 PyYAML==3.13
-requests==2.19.1
+requests
 six==1.11.0
 urllib3==1.23

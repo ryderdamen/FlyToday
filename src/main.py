@@ -91,6 +91,7 @@ def _get_flight_category(metar_dict, airport):
         string -- Text response for the user
     """
     if not 'flight_category' in metar_dict:
+        logging.error('flight_category not in metar_dict')
         return _get_standard_error_message()
     response_dictionary = {
         "LIFR": "It's looking like low IFR right now at {airport}.",
@@ -107,6 +108,35 @@ def _get_flight_category(metar_dict, airport):
     return response.format(**locals())
 
 
+def _get_wind_information(metar_dict, airport):
+    wind_speed = metar_dict['wind_speed_kt']
+    wind_dir = metar_dict['wind_dir_degrees']
+    response = "At {airport}, the wind is currently {wind_speed} knots at {wind_dir} degrees.".format(**locals())
+    return response
+
+
+def _get_visibility(metar_dict, airport):
+    stat_miles_to_km = 1.609344
+    visibility = metar_dict['visibility_statute_mi']
+    visibility_km = round(visibility * stat_miles_to_km, 1)
+    return "Visibility is looking around {visibility} statute miles ({visibility_km} km)".format(**locals())
+
+
+def _get_altimeter(metar_dict, airport):
+    alt = metar_dict['altim_in_hg']
+    return "You're looking at {alt} mmHg".format(**locals())
+
+
+def _get_temperature(metar_dict, airport):
+    temp = metar_dict['temp_c']
+    return "It's currently {temp} degrees Celsius at {airport}".format(**locals())
+
+
+def _get_metar_raw(metar_dict, airport):
+    raw = metar_dict['raw_text']
+    return raw
+
+
 def _get_icao_code_from_dialogflow(request_dictionary):
     """Returns the ICAO code or None from the request dictionary
     
@@ -118,7 +148,7 @@ def _get_icao_code_from_dialogflow(request_dictionary):
     """
     try:
         return request_dictionary['queryResult']['parameters']['airport']['ICAO']
-    except KeyError as e:
+    except KeyError:
         return None
 
 
@@ -133,22 +163,78 @@ def _get_airport_name_from_dialogflow(request_dictionary):
     """
     try:
         return request_dictionary['queryResult']['parameters']['airport']['name']
-    except KeyError as e:
+    except KeyError:
+        return None
+
+
+def _get_intent(request_dictionary):
+    """Gets the intent of the current conversation
+    
+    Arguments:
+        request_dictionary {dict} -- The JSON request object from DF as a dictionary
+    
+    Returns:
+        String - Intent of the conversation
+    """
+    try:
+        return request_dictionary['queryResult']['intent']['displayName']
+    except KeyError:
         return None
 
 
 def _build_text_response(request_json):
+    """Builds the text response from the request
+    
+    Arguments:
+        request_json {dict} -- The dictionary request object
+    
+    Returns:
+        string -- The string reponse message
+    """
+
     icao_code = _get_icao_code_from_dialogflow(request_json)
     airport_name = _get_airport_name_from_dialogflow(request_json)
+    intent = _get_intent(request_json)
     if not icao_code:
+        logging.error('No ICAO code provided.')
         return _get_standard_error_message()
+    
+    # Call Aviation.gov
     bs_data = _get_weather_from_aviation_gov(icao_code)
     metar_dict = _parse_metar_to_dict(bs_data)
-    return _get_flight_category(metar_dict, airport_name)
+    if not metar_dict:
+        logging.error("Wasn't able to get metar dictionary.")
+        return _get_standard_error_message()
+
+    intents = [
+        'get_flight_condition',
+        'get_wind_speed',
+        'get_elevation',
+        'get_temperature',
+    ]
+
+    # Parse and return intent responses
+    if intent == "get_flight_condition":
+        return _get_flight_category(metar_dict, airport_name)
+    elif intent == "get_wind_speed":
+        return _get_flight_category(metar_dict, airport_name)
+    elif intent == "get_elevation":
+        return _get_flight_category(metar_dict, airport_name)
+    if not intent:
+        intent = "No Intent"
+    logging.error('An unexpected intent occured: ' + intent)
+    return _get_standard_error_message()
 
 
 def main(request):
-    response = _build_text_response(request.get_json())
+    """Handles the main logic of the webhook
+    
+    Arguments:
+        request {request} -- The request object as provided by GCF
+    
+    Returns:
+        String -- A JSON response
+    """
     return json.dumps({
-        'fufillmentText': response
+        'fulfillmentText': _build_text_response(request.get_json())
     })
