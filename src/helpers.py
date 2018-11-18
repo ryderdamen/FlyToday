@@ -5,6 +5,7 @@ import os
 from ruamel.yaml import YAML
 import requests
 from bs4 import BeautifulSoup
+import logging
 
 
 def get_standard_error_message():
@@ -78,12 +79,12 @@ def parse_metar_to_dict(aviation_gov_soup):
     return dictionary
 
 
-def get_response(category, speech_or_text, key):
+def get_response(category, speech_or_text='both', key="standard"):
     """Gets a response from the YAML dictionary 
     
     Arguments:
         category {string} -- Category of the response (base of the yaml file)
-        speech_or_text {string} -- "speech" or "text"
+        speech_or_text {string} -- "speech" or "text" or "both"
         key {string} -- The key of the response (example "IFR")
     """
     responses_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'responses.yaml')
@@ -91,6 +92,8 @@ def get_response(category, speech_or_text, key):
     with open(responses_path, 'r') as yaml_responses:
         try:
             responses = yaml.load(yaml_responses)
+            if speech_or_text == 'both':
+                return responses[category][key]['speech'], responses[category][key]['text']
             return responses[category][key][speech_or_text]
         except Exception as exc:
             print(exc)

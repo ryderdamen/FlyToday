@@ -6,12 +6,32 @@ FlightConditions:
       speech: It's VFR, let's go flying!
       text: Good news! It's VFR right now at {airport}. 🛩 ☀️
     LIFR:
-      speech: It's looking like low IFR.
+      speech: It's looking like low IFR right now at {airport}.
       text: It's looking like low IFR right now at {airport}. ☁️
     MVFR:
       speech: It's looking like marginal VFR. Your call.
       text: It's looking like marginal VFR right now at {airport}. ⛅
 WindInformation:
   standard:
-    speech: You're looking at {alt} mmHg
+    speech: "You're looking at {alt} mmHg"
     text: You're looking at {alt} mmHg
+Temperature:
+  standard:
+    speech: "It's currently {temp_c} °C ({temp_f} °F) at {airport}. The dew point is sitting at  {dew_c} °C ({dew_f} °F)"
+    text: "{airport} Temperature: {temp_c} °C ({temp_f} °F), Dew point {dew_c} °C ({dew_f} °F)"
+Altimeter:
+  standard:
+    speech: "For {airport}, you're looking at {alt} mmHg."
+    text: "{airport} Altimeter: {alt} mmHg"
+Visibility:
+  standard:
+    speech: "Visibility is looking around {visibility} statute miles ({visibility_km} km)."
+    text: "{airport} Visibility: {visibility} sm ({visibility_km} km)"
+Wind:
+  standard:
+    speech: "At {airport}, winds are currently {wind_speed} knots at {wind_dir} degrees."
+    text: "{airport} Winds: {wind_speed} kt at {wind_dir}°"
+Elevation:
+  standard:
+    speech: "Elevation for {airport} is {elevation_m} meters ({elevation_f} feet) above sea level."
+    text: "{airport} Elevation: {elevation_m} meters ({elevation_f} feet) ASL"

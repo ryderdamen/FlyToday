@@ -26,14 +26,14 @@ def build_response(request_json):
     intent = helpers.get_intent(request_json)
     if not icao_code:
         logging.error('No ICAO code provided.')
-        return helpers.get_standard_error_message()
+        return helpers.get_standard_error_message(), helpers.get_standard_error_message()
     
     # Call Aviation.gov
     bs_data = helpers.get_weather_from_aviation_gov(icao_code)
     metar_dict = helpers.parse_metar_to_dict(bs_data)
     if not metar_dict:
         logging.error("Wasn't able to get metar dictionary.")
-        return helpers.get_standard_error_message()
+        return helpers.get_standard_error_message(), helpers.get_standard_error_message()
 
     intents = [
         'get_flight_condition',
@@ -59,7 +59,7 @@ def build_response(request_json):
     if not intent:
         intent = "No Intent"
     logging.error('An unexpected intent occured: ' + intent)
-    return helpers.get_standard_error_message()
+    return helpers.get_standard_error_message(), helpers.get_standard_error_message()
 
 
 def main(request):
@@ -71,6 +71,7 @@ def main(request):
     Returns:
         String -- A JSON response
     """
+    speech, text = build_response(request.get_json())
     return json.dumps({
-        'fulfillmentText': build_response(request.get_json())
+        'fulfillmentText': speech
     })
