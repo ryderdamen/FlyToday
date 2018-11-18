@@ -11,3 +11,7 @@ FlightConditions:
     MVFR:
       speech: It's looking like marginal VFR. Your call.
       text: It's looking like marginal VFR right now at {airport}. ⛅
+WindInformation:
+  standard:
+    speech: You're looking at {alt} mmHg
+    text: You're looking at {alt} mmHg
