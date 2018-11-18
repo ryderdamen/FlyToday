@@ -1,3 +1,6 @@
+""" Tests for API and helpers """
+# -*- coding: utf-8 -*-
+
 import sys
 import os
 import main as api
@@ -35,15 +38,6 @@ def test_can_convert_metar_to_dict():
     assert len(dictionary) == 16
 
 
-def test_canget_flight_category():
-    """ Tests that the flight category can be successfully retrieved """
-    icao_code = "CYYZ"
-    airport_name = "Toronto International Airport"
-    bs_data = api.get_weather_from_aviation_gov(icao_code)
-    metar_dict = api.parse_metar_to_dict(bs_data)
-    print( api.get_flight_category(metar_dict, airport_name) )
-
-
 def test_can_open_yaml_responses():
     """ Tests the api can open and parse YAML-stored responses """
     yaml_response = helpers.get_response('FlightConditions', 'speech', 'VFR')
@@ -77,7 +71,7 @@ def test_end_to_end_api():
     
     response = api.main(RequestTest())
     error = {
-        'fufillmentText': api.get_standard_error_message()
+        'fufillmentText': helpers.get_standard_error_message()
     }
     assert response != json.dumps(error)
 
@@ -140,6 +134,15 @@ def test_can_get_metar_raw():
     dictionary = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
     response = weather.get_metar_raw(dictionary, 'Test Airport')
     expected = "CYYZ 022100Z 34008KT 1 1/2SM -DZ BR SCT002 OVC004 13/12 A2995 RMK SF3ST5 SLP145"
+    assert response == expected
+
+
+def test_get_flight_categories():
+    """ Tests the flight_category response can be returned """
+    metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
+    dictionary = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
+    response = weather.get_flight_category(dictionary, 'Test Airport')
+    expected = "It's looking like low IFR right now at Test Airport."
     assert response == expected
 
 
