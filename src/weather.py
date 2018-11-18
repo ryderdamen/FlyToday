@@ -34,6 +34,13 @@ def get_temperature(metar_dict, airport):
     return "It's currently {temp_c} °C ({temp_f} °F) at {airport}.".format(**locals())
 
 
+def get_elevation(metar_dict, airport):
+    """ Returns the elevation of the aerodrome """
+    elevation_m = float(metar_dict['elevation_m'])
+    elevation_f = round((3.28084 * elevation_m), 1)
+    return "Elevation for {airport} is {elevation_m} meters ({elevation_f} feet).".format(**locals())
+
+
 def get_metar_raw(metar_dict, airport):
     """ Returns the raw METAR data """
     return metar_dict['raw_text'].replace('\n', '')

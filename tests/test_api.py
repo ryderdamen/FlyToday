@@ -125,6 +125,15 @@ def test_get_altimiter():
     assert response == expected
 
 
+def test_get_elevation():
+    """ Tests if elevation info can be successfully returned """
+    metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
+    dictionary = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
+    response = weather.get_elevation(dictionary, 'Test Airport')
+    expected = "Elevation for Test Airport is 173.0 meters (567.6 feet)."
+    assert response == expected
+
+
 def test_can_get_metar_raw():
     """ Tests the raw METAR response can be returned """
     metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()

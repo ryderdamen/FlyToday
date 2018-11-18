@@ -15,7 +15,7 @@ from helpers import (
     get_intent,
     get_weather_from_aviation_gov
 )
-from weather import get_metar_raw, get_wind_information, get_flight_category, get_visibility
+from weather import get_metar_raw, get_wind_information, get_flight_category, get_visibility, get_elevation
 
 
 def build_response(request_json):
@@ -53,12 +53,14 @@ def build_response(request_json):
     # Parse and return intent responses
     if intent == "get_flight_condition":
         return get_flight_category(metar_dict, airport_name)
-    elif intent == "get_wind_speed":
+    elif intent == "get_wind_information":
         return get_wind_information(metar_dict, airport_name)
     elif intent == "get_elevation":
-        return get_flight_category(metar_dict, airport_name)
+        return get_elevation(metar_dict, airport_name)
     elif intent == "get_visibility":
         return get_visibility(metar_dict, airport_name)
+    elif intent == "get_temperature":
+        return get_temperature(metar_dict, airport_name)
     if not intent:
         intent = "No Intent"
     logging.error('An unexpected intent occured: ' + intent)
