@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 import logging
-from src.helpers import (
+from helpers import (
     get_standard_error_message,
     get_icao_code_from_dialogflow,
     parse_metar_to_dict,
@@ -15,7 +15,7 @@ from src.helpers import (
     get_intent,
     get_weather_from_aviation_gov
 )
-from src.weather import get_metar_raw, get_wind_information, get_flight_category, get_visibility
+from weather import get_metar_raw, get_wind_information, get_flight_category, get_visibility
 
 
 def build_response(request_json):

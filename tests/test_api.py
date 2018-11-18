@@ -1,11 +1,8 @@
 import sys
 import os
-sys.path.insert(0, (
-    os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-)
-from src import main as api
-from src import helpers
-from src import weather
+import main as api
+import helpers
+import weather
 from bs4 import BeautifulSoup
 import json
 import pytest

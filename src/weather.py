@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from src.helpers import get_standard_error_message
+from helpers import get_standard_error_message
 
 
 def get_wind_information(metar_dict, airport):
