@@ -7,7 +7,7 @@ import sys
 from bs4 import BeautifulSoup
 import requests
 import json
-import yaml
+from ruamel.yaml import YAML
 import logging
 
 
@@ -70,12 +70,12 @@ def _get_response(category, speech_or_text, key):
         key {string} -- The key of the response (example "IFR")
     """
     responses_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'responses.yaml')
-    print(responses_path)
+    yaml = YAML()
     with open(responses_path, 'r') as yaml_responses:
         try:
             responses = yaml.load(yaml_responses)
             return responses[category][key][speech_or_text]
-        except yaml.YAMLError as exc:
+        except Exception as exc:
             print(exc)
             logging.error(exc)
 
