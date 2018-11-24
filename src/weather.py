@@ -46,7 +46,13 @@ def get_temperature(metar_dict):
     temp_f = _convert_c_to_f(temp_c)
     dew_c = float(metar_dict['dewpoint_c'])
     dew_f = _convert_c_to_f(dew_c)
-    return temp_c, temp_f, dew_c, dew_f
+    return temp_c, temp_f
+
+def get_dewpoint(metar_dict):
+    """ Returns the current dewpoint in Celcius and Fahrenheit """
+    dew_c = float(metar_dict['dewpoint_c'])
+    dew_f = _convert_c_to_f(dew_c)
+    return dew_c, dew_f
 
 
 def get_elevation(metar_dict):

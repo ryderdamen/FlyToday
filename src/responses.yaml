@@ -35,3 +35,23 @@ Elevation:
   standard:
     speech: "Elevation for {airport} is {elevation_m} meters ({elevation_f} feet) above sea level."
     text: "{airport} Elevation: {elevation_m} meters ({elevation_f} feet) ASL"
+Metar:
+  Temperature:
+    speech: "The temperature is {temp_c} ({temp_f} °F)"
+    text: "Temperature: {temp_c} °C ({temp_f} °F)"
+  Visibility:
+    speech:
+    text:
+  Wind:
+    speech:
+    text:
+  Altimeter:
+    speech:
+    text:
+  Elevation:
+    speech:
+    text:
+  FlightConditions:
+    speech:
+    text:
+      

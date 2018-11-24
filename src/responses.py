@@ -29,7 +29,8 @@ def get_altimeter(metar_dict, airport):
 
 def get_temperature(metar_dict, airport):
     """ Returns the current temperature in celcius and fahrenheit, and dewpoint """
-    temp_c, temp_f, dew_c, dew_f = weather.get_temperature(metar_dict)
+    temp_c, temp_f = weather.get_temperature(metar_dict)
+    dew_c, dew_f = weather.get_dewpoint(metar_dict)
     speech, text = get_response('Temperature')
     return speech.format(**locals()), text.format(**locals())
 
@@ -50,6 +51,8 @@ def get_metar_raw(metar_dict, airport):
 def get_metar_parsed(metar_dict, airport):
     """ Returns the human-readable version of the METAR """
     spoken = ""
+    if 'flight_category' in metar_dict:
+        pass
     if 'temp_c' in metar_dict:
         pass
 
