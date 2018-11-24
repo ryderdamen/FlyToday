@@ -8,7 +8,7 @@ import requests
 import json
 import logging
 import helpers
-import weather
+import responses
 
 
 def build_response(request_json):
@@ -44,18 +44,20 @@ def build_response(request_json):
     ]
 
     # Parse and return intent responses
-    if intent == "get_flight_condition":
-        return weather.get_flight_category(metar_dict, airport_name)
-    elif intent == "get_wind_information":
-        return weather.get_wind_information(metar_dict, airport_name)
-    elif intent == "get_elevation":
-        return weather.get_elevation(metar_dict, airport_name)
-    elif intent == "get_visibility":
-        return weather.get_visibility(metar_dict, airport_name)
-    elif intent == "get_temperature":
-        return weather.get_temperature(metar_dict, airport_name)
-    elif intent == "get_metar_raw":
-        return weather.get_metar_raw(metar_dict, airport_name)
+    if intent == 'get_flight_condition':
+        return responses.get_flight_category(metar_dict, airport_name)
+    elif intent == 'get_wind_information':
+        return responses.get_wind_information(metar_dict, airport_name)
+    elif intent == 'get_elevation':
+        return responses.get_elevation(metar_dict, airport_name)
+    elif intent == 'get_visibility':
+        return responses.get_visibility(metar_dict, airport_name)
+    elif intent == 'get_temperature':
+        return responses.get_temperature(metar_dict, airport_name)
+    elif intent == 'get_metar_raw':
+        return responses.get_metar_raw(metar_dict, airport_name)
+    elif intent == 'get_altimeter':
+        return responses.get_altimeter(metar_dict, airport_name)
     if not intent:
         intent = "No Intent"
     logging.error('An unexpected intent occured: ' + intent)

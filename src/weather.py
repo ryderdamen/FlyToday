@@ -5,76 +5,66 @@ import logging
 from helpers import get_standard_error_message, get_response
 
 
-def get_wind_information(metar_dict, airport):
-    """ Returns the current wind information """
+def _convert_c_to_f(temp_c):
+    """ Converts celcius to fahrenheit """
+    return round((1.8 * temp_c) + 32, 1)
+
+
+def _convert_stat_miles_to_km(stat_miles):
+    """ Converts stat miles to kms """
+    stat_miles_to_km = 1.609344
+    return round(stat_miles * stat_miles_to_km, 1)
+
+
+def _convert_meters_to_feet(meters):
+    """ Converts meters to feet """
+    return round((3.28084 * meters), 1)
+
+
+def get_wind_information(metar_dict):
+    """ Returns the current wind information as raw data """
     wind_speed = metar_dict['wind_speed_kt']
     wind_dir = metar_dict['wind_dir_degrees']
-    speech, text = get_response('Wind')
-    return speech.format(**locals()), text.format(**locals())
+    return wind_speed, wind_dir
 
 
-def get_visibility(metar_dict, airport):
-    """ Returns the current visibility """
-    stat_miles_to_km = 1.609344
+def get_visibility(metar_dict):
+    """ Returns the current visibility as raw data """
     visibility = float(metar_dict['visibility_statute_mi'])
-    visibility_km = round(visibility * stat_miles_to_km, 1)
-    speech, text = get_response('Visibility')
-    return speech.format(**locals()), text.format(**locals())
+    visibility_km = _convert_stat_miles_to_km(visibility)
+    return visibility, visibility_km
 
 
-def get_altimeter(metar_dict, airport):
-    """ Returns the current altimeter reading """
-    alt = metar_dict['altim_in_hg']
-    speech, text = get_response('Altimeter')
-    return speech.format(**locals()), text.format(**locals())
+def get_altimeter(metar_dict):
+    """ Returns the current altimeter reading data """
+    return metar_dict['altim_in_hg']
 
 
-def get_temperature(metar_dict, airport):
+def get_temperature(metar_dict):
     """ Returns the current temperature in celcius and fahrenheit """
     temp_c = float(metar_dict['temp_c'])
-    temp_f = round((1.8 * temp_c) + 32, 1)
+    temp_f = _convert_c_to_f(temp_c)
     dew_c = float(metar_dict['dewpoint_c'])
-    dew_f = round((1.8 * dew_c) + 32, 1)
-    speech, text = get_response('Temperature')
-    return speech.format(**locals()), text.format(**locals())
+    dew_f = _convert_c_to_f(dew_c)
+    return temp_c, temp_f, dew_c, dew_f
 
 
-def get_elevation(metar_dict, airport):
+def get_elevation(metar_dict):
     """ Returns the elevation of the aerodrome """
     elevation_m = float(metar_dict['elevation_m'])
-    elevation_f = round((3.28084 * elevation_m), 1)
-    speech, text = get_response('Elevation')
-    return speech.format(**locals()), text.format(**locals())
+    elevation_f = _convert_meters_to_feet(elevation_m)
+    return elevation_m, elevation_f
 
 
-def get_metar_raw(metar_dict, airport):
+def get_metar_raw(metar_dict):
     """ Returns the raw METAR data """
-    raw = metar_dict['raw_text'].replace('\n', '')
-    return raw, raw
+    return metar_dict['raw_text'].replace('\n', '')
 
 
-def get_metar_parsed(metar_dict, airport):
-    """ Returns the human-readable version of the METAR """
-    pass
-
-
-def get_flight_category(metar_dict, airport):
-    """Gets the flight category from the metar dictionary
-    
-    Arguments:
-        metar_dict {dictionary} -- METAR dictionary
-        airport {string} -- Full name of the airport
-    
-    Returns:
-        string -- Text response for the user
-    """
+def get_flight_category(metar_dict):
+    """Gets the flight category from the metar dictionary"""
     if not 'flight_category' in metar_dict:
         logging.error('flight_category not in metar_dict')
-        return get_standard_error_message()
+        return None
     flight_category = metar_dict['flight_category'].strip().upper()
-    try:
-        speech, text = get_response('FlightConditions', 'both', flight_category)
-        return speech.format(**locals()), text.format(**locals())
-    except Exception:
-        default = "It's currently {flight_category} at {airport}.".format(**locals())
-        return default, default
+    return flight_category
