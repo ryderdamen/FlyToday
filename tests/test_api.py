@@ -72,16 +72,18 @@ def test_end_to_end_api():
     
     response = api.main(RequestTest())
     error = {
-        'fufillmentText': helpers.get_standard_error_message()
+        'fulfillmentText': helpers.get_standard_error_message()
     }
-    assert response != json.dumps(error)
+    not_expected = json.dumps(error).lstrip().rstrip()
+    clean_response = response.lstrip().rstrip()
+    assert clean_response != not_expected
 
 
 def testget_intent():
     """ Tests the intent can be successfully retrieved"""
     request_dictionary = load_sample_dialogflow_request()
     intent = helpers.get_intent(request_dictionary)
-    assert intent == "get_weather"
+    assert intent == "get_flight_condition"
 
 
 def test_can_get_visibility():

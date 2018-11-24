@@ -35,33 +35,21 @@ def build_response(request_json):
         logging.error("Wasn't able to get metar dictionary.")
         return helpers.get_standard_error_message(), helpers.get_standard_error_message()
 
-    intents = [
-        'get_flight_condition',
-        'get_wind_speed',
-        'get_elevation',
-        'get_temperature',
-        'get_visibility',
-    ]
+    intents = {
+        'get_flight_condition': responses.get_flight_category,
+        'get_wind_information': responses.get_wind_information,
+        'get_elevation': responses.get_elevation,
+        'get_visibility': responses.get_visibility,
+        'get_temperature': responses.get_temperature,
+        'get_metar_raw': responses.get_metar_raw,
+        'get_altimeter': responses.get_altimeter,
+    }
 
-    # Parse and return intent responses
-    if intent == 'get_flight_condition':
-        return responses.get_flight_category(metar_dict, airport_name)
-    elif intent == 'get_wind_information':
-        return responses.get_wind_information(metar_dict, airport_name)
-    elif intent == 'get_elevation':
-        return responses.get_elevation(metar_dict, airport_name)
-    elif intent == 'get_visibility':
-        return responses.get_visibility(metar_dict, airport_name)
-    elif intent == 'get_temperature':
-        return responses.get_temperature(metar_dict, airport_name)
-    elif intent == 'get_metar_raw':
-        return responses.get_metar_raw(metar_dict, airport_name)
-    elif intent == 'get_altimeter':
-        return responses.get_altimeter(metar_dict, airport_name)
-    if not intent:
-        intent = "No Intent"
-    logging.error('An unexpected intent occured: ' + intent)
-    return helpers.get_standard_error_message(), helpers.get_standard_error_message()
+    if intent not in intents:
+        logging.error('An unexpected intent occured: ' + intent)
+        return helpers.get_standard_error_message(), helpers.get_standard_error_message()
+    
+    return intents[intent](metar_dict, airport_name)
 
 
 def main(request):

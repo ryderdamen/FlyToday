@@ -23,7 +23,7 @@
       ],
       "intent": {
         "name": "289374928347293847298347928347923874928374928334",
-        "displayName": "get_weather"
+        "displayName": "get_flight_condition"
       },
       "intentDetectionConfidence": 1,
       "diagnosticInfo": {
