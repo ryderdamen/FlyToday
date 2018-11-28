@@ -1,13 +1,64 @@
 FlightConditions:
     IFR:
-      speech: It looks like it's IFR right now.
-      text: It looks like IFR right now at {airport}.
+      speech: "It looks like it's IFR right now."
+      text: "It looks like IFR right now at {airport}. ️☁️"
     VFR:
-      speech: It's VFR, let's go flying!
-      text: Good news! It's VFR right now at {airport}.
+      speech: "It's VFR, let's go flying!"
+      text: "Good news! It's VFR right now at {airport}. 🛩 ☀️"
     LIFR:
-      speech: It's looking like low IFR.
-      text: It's looking like low IFR right now at {airport}.
+      speech: "It's looking like low IFR right now at {airport}."
+      text: "It's looking like low IFR right now at {airport}. ☁️"
     MVFR:
-      speech: It's looking like marginal VFR. Your call.
-      text: It's looking like marginal VFR right now at {airport}.
+      speech: "It's looking like marginal VFR. Your call."
+      text: "It's looking like marginal VFR right now at {airport}. ⛅"
+WindInformation:
+  standard:
+    speech: "You're looking at {alt} mmHg"
+    text: You're looking at {alt} mmHg
+Temperature:
+  standard:
+    speech: "It's currently {temp_c} °C ({temp_f} °F) at {airport}. The dew point is sitting at  {dew_c} °C ({dew_f} °F)"
+    text: "{airport} Temperature: {temp_c} °C ({temp_f} °F), Dew point {dew_c} °C ({dew_f} °F)"
+Altimeter:
+  standard:
+    speech: "For {airport}, you're looking at {alt} mmHg."
+    text: "{airport} Altimeter: {alt} mmHg"
+Visibility:
+  standard:
+    speech: "Visibility is looking around {visibility} statute miles ({visibility_km} km)."
+    text: "{airport} Visibility: {visibility} sm ({visibility_km} km)"
+Wind:
+  standard:
+    speech: "At {airport}, winds are currently {wind_speed} knots at {wind_dir} degrees."
+    text: "{airport} Winds: {wind_speed} kt at {wind_dir}°"
+Elevation:
+  standard:
+    speech: "Elevation for {airport} is {elevation_m} meters ({elevation_f} feet) above sea level."
+    text: "{airport} Elevation: {elevation_m} meters ({elevation_f} feet) ASL"
+Metar:
+  Time:
+    speech: "Posted At: {obs_time_read} Zulu ({relative_time})."
+    text: "Posted At: {obs_time} Zulu ({relative_time})."
+  Temperature:
+    speech: "Temperature {temp_c_read}."
+    text: "Temperature: {temp_c} °C."
+  Dewpoint:
+    speech: "Dewpoint {dew_c_read}."
+    text: "Dewpoint: {dew_c} °C."
+  Visibility:
+    speech: "Visibility {visibility_read}."
+    text: "Visibility: {visibility} statute miles."
+  Wind:
+    speech: "Winds {wind_dir_read} at {wind_speed_read} knots."
+    text: "Winds: {wind_dir}° at {wind_speed} knots."
+  Altimeter:
+    speech: "Altimeter {altimeter_read}."
+    text: "Altimeter: {altimeter} mmHg."
+  FlightCategory:
+    speech: "Field is {flight_category}."
+    text: "Field: {flight_category}."
+  SkyCondition:
+    speech: "{condition} at {agl_read}."
+    text: "{condition} at {agl} AGL."
+  
+  

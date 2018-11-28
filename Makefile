@@ -2,7 +2,7 @@
 .PHONY: install
 install:
 	source env/bin/activate
-	pip install -r requirements.txt
+	pip install -r src/requirements.txt
 	echo "Please confirm gcloud CLI is installed"
 
 .PHONY: deploy

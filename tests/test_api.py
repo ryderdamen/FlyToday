@@ -1,52 +1,35 @@
+""" Tests for API and helpers """
+# -*- coding: utf-8 -*-
+
 import sys
 import os
-sys.path.insert(0, (
-    os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-)
-from src import main as api
+import main as api
+import helpers
+import weather
+import responses
 from bs4 import BeautifulSoup
 import json
-
-
-def get_data_directory():
-    """ Returns the absolute path of the data directory """
-    return os.path.join(
-        os.path.dirname(os.path.realpath(__file__)),
-        'data/'
-    )
-
-
-def load_sample_dialogflow_request():
-    """ Loads a sample dialogflow request to a dictionary """
-    with open(os.path.join(get_data_directory(), 'sample_dialogflow_request.json')) as req:
-        return json.loads(req.read())
+import pytest
+from tests.helpers import get_data_directory, load_sample_dialogflow_request
 
 
 def test_can_get_aviation_gov_site():
     """ Tests that the API can retrieve data from aviation.gov """
-    test = api._get_weather_from_aviation_gov('CYYZ')
+    test = helpers.get_weather_from_aviation_gov('CYYZ')
     assert test is not None
 
 
 def test_can_convert_metar_to_dict():
     """ Tests that the api can convert metar raw data to a dictionary """
     metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
-    dictionary = api._parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
-    assert len(dictionary) == 16
-
-
-def test_can_get_flight_category():
-    """ Tests that the flight category can be successfully retrieved """
-    icao_code = "CYYZ"
-    airport_name = "Toronto International Airport"
-    bs_data = api._get_weather_from_aviation_gov(icao_code)
-    metar_dict = api._parse_metar_to_dict(bs_data)
-    print( api._get_flight_category(metar_dict, airport_name) )
+    dictionary = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
+    assert len(dictionary) == 17
+    assert 'sky_conditions' in dictionary
 
 
 def test_can_open_yaml_responses():
     """ Tests the api can open and parse YAML-stored responses """
-    yaml_response = api._get_response('FlightConditions', 'speech', 'VFR')
+    yaml_response = helpers.get_response('FlightConditions', 'speech', 'VFR')
     expected = "It's VFR, let's go flying!"
     assert yaml_response == expected
 
@@ -54,14 +37,14 @@ def test_can_open_yaml_responses():
 def test_can_parse_icao_code_from_dialogflow():
     """ Tests that the ICAO code can be successfully parsed from a DF request """
     request_dictionary = load_sample_dialogflow_request()
-    icao = api._get_icao_code_from_dialogflow(request_dictionary)
+    icao = helpers.get_icao_code_from_dialogflow(request_dictionary)
     assert icao == "CYXU"
 
 
 def test_can_parse_airport_name_from_dialogflow():
     """ Tests that the ICAO code can be successfully parsed from a DF request """
     request_dictionary = load_sample_dialogflow_request()
-    name = api._get_airport_name_from_dialogflow(request_dictionary)
+    name = helpers.get_airport_name_from_dialogflow(request_dictionary)
     assert name == "London"
 
 
@@ -77,13 +60,15 @@ def test_end_to_end_api():
     
     response = api.main(RequestTest())
     error = {
-        'fufillmentText': api._get_standard_error_message()
+        'fulfillmentText': helpers.get_standard_error_message()
     }
-    assert response != json.dumps(error)
+    not_expected = json.dumps(error).lstrip().rstrip()
+    clean_response = response.lstrip().rstrip()
+    assert clean_response != not_expected
 
 
-def test_get_intent():
+def testget_intent():
     """ Tests the intent can be successfully retrieved"""
     request_dictionary = load_sample_dialogflow_request()
-    intent = api._get_intent(request_dictionary)
-    assert intent == "get_weather"
+    intent = helpers.get_intent(request_dictionary)
+    assert intent == "get_flight_condition"
