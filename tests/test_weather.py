@@ -178,3 +178,15 @@ def test_when_no_sky_conditions_return_none():
     temp_dict = metar_dict
     del temp_dict['sky_conditions']
     assert weather.get_sky_conditions(temp_dict) is None
+
+
+def test_when_weird_sky_condition_return_weird():
+    temp_dict = metar_dict
+    new_sky_conditions = [{
+        'cloud_base_ft_agl': '500',
+        'sky_cover': 'WEIRD'
+    }]
+    temp_dict['sky_conditions'] = new_sky_conditions
+    conditions = weather.get_sky_conditions(metar_dict)
+    assert conditions[0][0] == 'WEIRD'
+    assert conditions[0][1] == '500'

@@ -49,6 +49,11 @@ def get_metar_raw(metar_dict, airport):
     return raw, raw
 
 
+def replace_point(input_text):
+    """ Replaces '.' with 'point' """
+    return input_text.replace('.', 'point')
+
+
 def get_metar_parsed(metar_dict, airport):
     """ Returns the human-readable version of the METAR """
     all_speech = []
@@ -66,19 +71,19 @@ def get_metar_parsed(metar_dict, airport):
     sky_conditions = weather.get_sky_conditions(metar_dict)
 
     # Apply Phonetic Alphabet
-    station_id = alpha.read(station_id)
-    obs_tme = alpha.read(obs_time)
-    wind_speed = alpha.read(wind_speed)
-    wind_dir = alpha.read(wind_dir)
-    visibility = alpha.read(visibility)
-    altimeter = alpha.read(altimeter)
-    temp_c = alpha.read(temp_c)
-    dew_c = alpha.read(dew_c)
+    station_id_read = alpha.read(station_id).title()
+    obs_time_read = alpha.read(obs_time).title()
+    wind_speed_read = alpha.read(wind_speed).title()
+    wind_dir_read = alpha.read(wind_dir).title()
+    visibility_read = replace_point(alpha.read(visibility)).title()
+    altimeter_read = replace_point(alpha.read(altimeter)).title()
+    temp_c_read = replace_point(alpha.read(temp_c)).title()
+    dew_c_read = replace_point(alpha.read(dew_c)).title()
 
     if station_id:
-        all_speech.append(station_id + ' - ' + airport.title() + ' - METAR.')
-        all_text.append(station_id + ' - ' + airport.title() + ' - METAR.')
-    if obs_tme and relative_time:
+        all_speech.append(station_id_read + ' - ' + airport.title() + ' Weather.')
+        all_text.append(station_id + ' - ' + airport.title() + ' Weather.')
+    if obs_time and relative_time:
         speech, text = get_response('Metar', 'both', 'Time')
         all_speech.append(speech.format(**locals()))
         all_text.append(text.format(**locals()))
@@ -107,11 +112,11 @@ def get_metar_parsed(metar_dict, airport):
         all_speech.append(speech.format(**locals()))
         all_text.append(text.format(**locals()))
     if sky_conditions:
-        sc_speech = "Sky Conditions: "
+        sc_speech = "Sky Conditions are as follows. "
         sc_text = "Sky Conditions: "
         speech, text = get_response('Metar', 'both', 'SkyCondition')
         for condition, agl in sky_conditions:
-            agl = alpha.read(agl)
+            agl_read = alpha.read(agl).title()
             sc_speech += speech.format(**locals()) + ' '
             sc_text += text.format(**locals()) + ' '
         all_speech.append(sc_speech)

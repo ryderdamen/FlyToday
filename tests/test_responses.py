@@ -2,6 +2,7 @@
 
 import os
 from tests.helpers import get_data_directory
+from tests.helpers import normalize_relative_dates_brackets as normalize
 import helpers
 import responses
 from bs4 import BeautifulSoup
@@ -71,15 +72,14 @@ def test_get_flight_categories():
     assert speech == expected
 
 
-@pytest.mark.skip('not yet complete')
+# @pytest.mark.skip('not yet complete')
 def test_can_get_metar_parsed():
     """ Tests the parsed/read METAR response can be returned """
     metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
     dictionary = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
     speech, text = responses.get_metar_parsed(dictionary, 'Test Airport')
-    expected_speech = ""
-    expected_text = ""
-    print(speech)
-    assert speech == expected_speech
-    assert text == expected_text
-
+    expected = open(os.path.join(get_data_directory(), 'expected_parsed_metar.txt'), 'r').readlines()
+    expected_speech = expected[0]
+    expected_text = expected[1]
+    assert normalize(speech) == normalize(expected_speech)
+    assert normalize(text) == normalize(expected_text)

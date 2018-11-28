@@ -13,7 +13,6 @@ import pytest
 from tests.helpers import get_data_directory, load_sample_dialogflow_request
 
 
-@pytest.mark.skip(reason='Makes network calls')
 def test_can_get_aviation_gov_site():
     """ Tests that the API can retrieve data from aviation.gov """
     test = helpers.get_weather_from_aviation_gov('CYYZ')

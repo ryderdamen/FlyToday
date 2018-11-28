@@ -37,28 +37,28 @@ Elevation:
     text: "{airport} Elevation: {elevation_m} meters ({elevation_f} feet) ASL"
 Metar:
   Time:
-    speech: "Posted At: {obs_time} Zulu ({relative_time})."
+    speech: "Posted At: {obs_time_read} Zulu ({relative_time})."
     text: "Posted At: {obs_time} Zulu ({relative_time})."
   Temperature:
-    speech: "Temperature {temp_c}."
-    text: "Temperature: {temp_c}."
+    speech: "Temperature {temp_c_read}."
+    text: "Temperature: {temp_c} °C."
   Dewpoint:
-    speech: "Dewpoint {dew_c}."
-    text: "Dewpoint: {dew_c}."
+    speech: "Dewpoint {dew_c_read}."
+    text: "Dewpoint: {dew_c} °C."
   Visibility:
-    speech: "Visibility {visibility}."
-    text: "Visibility: {visibility}."
+    speech: "Visibility {visibility_read}."
+    text: "Visibility: {visibility} statute miles."
   Wind:
-    speech: "Winds {wind_dir} at {wind_speed} knots."
-    text: "Winds: {wind_dir} at {wind_speed} knots."
+    speech: "Winds {wind_dir_read} at {wind_speed_read} knots."
+    text: "Winds: {wind_dir}° at {wind_speed} knots."
   Altimeter:
-    speech: "Altimeter {altimeter}."
-    text: "Altimeter: {altimeter}."
+    speech: "Altimeter {altimeter_read}."
+    text: "Altimeter: {altimeter} mmHg."
   FlightCategory:
     speech: "Field is {flight_category}."
     text: "Field: {flight_category}."
   SkyCondition:
-    speech: "{condition} at {agl}."
-    text: "{condition} at {agl}."
+    speech: "{condition} at {agl_read}."
+    text: "{condition} at {agl} AGL."
   
   
