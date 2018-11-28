@@ -36,6 +36,9 @@ Elevation:
     speech: "Elevation for {airport} is {elevation_m} meters ({elevation_f} feet) above sea level."
     text: "{airport} Elevation: {elevation_m} meters ({elevation_f} feet) ASL"
 Metar:
+  Time:
+    speech: "Time: {time} ( {minutes_old} minutes old )."
+    text: "Time: {time} ( {minutes_old} minutes old )."
   Temperature:
     speech: "The temperature is {temp_c} ({temp_f} °F)"
     text: "Temperature: {temp_c} °C ({temp_f} °F)"
@@ -51,7 +54,44 @@ Metar:
   Elevation:
     speech:
     text:
-  FlightConditions:
-    speech:
-    text:
-      
+  FlightCategory:
+    speech: "Field is {flight_category}."
+    text: "Field is {flight_category}."
+  Numbers:
+    0: zero
+    1: one
+    2: two
+    3: three
+    4: four
+    5: five
+    6: six
+    7: seven
+    8: eight
+    9: niner
+  Alphabet:
+    a: alpha
+    b: bravo
+    c: charlie
+    d: delta
+    e: echo
+    f: foxtrot
+    g: golf
+    h: hotel
+    i: india
+    j: juliet
+    k: kilo
+    l: lima
+    n: november
+    m: mike
+    o: oscar
+    p: papa
+    q: quebec
+    r: romeo
+    s: sierra
+    t: tango
+    u: uniform
+    v: victor
+    w: whiskey
+    x: x-ray
+    y: yankee
+    z: zulu

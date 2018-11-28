@@ -3,6 +3,7 @@
 
 import logging
 from helpers import get_standard_error_message, get_response
+import dateparser
 
 
 def _convert_c_to_f(temp_c):
@@ -23,9 +24,7 @@ def _convert_meters_to_feet(meters):
 
 def get_wind_information(metar_dict):
     """ Returns the current wind information as raw data """
-    wind_speed = metar_dict['wind_speed_kt']
-    wind_dir = metar_dict['wind_dir_degrees']
-    return wind_speed, wind_dir
+    return metar_dict['wind_speed_kt'], metar_dict['wind_dir_degrees']
 
 
 def get_visibility(metar_dict):
@@ -75,3 +74,11 @@ def get_flight_category(metar_dict):
         return None
     flight_category = metar_dict['flight_category'].strip().upper()
     return flight_category
+
+
+def get_time(metar_dict):
+    """ Returns the absolute and relative time of the METAR """
+    if not 'observation_time' in metar_dict:
+        logging.error('No observation time in metar_dict')
+        return None
+    zulu = dateparser.parse(metar_dict['observation_time'])

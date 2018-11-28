@@ -50,11 +50,23 @@ def get_metar_raw(metar_dict, airport):
 
 def get_metar_parsed(metar_dict, airport):
     """ Returns the human-readable version of the METAR """
-    spoken = ""
-    if 'flight_category' in metar_dict:
-        pass
-    if 'temp_c' in metar_dict:
-        pass
+    all_speech = []
+    all_text = []
+    options = [
+        ('flight_category', 'FlightCategory'),
+        ('temp_c', 'Temperature'),
+        ('elevation', 'Elevation'),
+        ('wind_speed_kt', 'Wind'),
+        ('altim_in_hg', 'Altimeter'),
+        ('altim_in_hg', 'Altimeter'),
+    ]
+    for metar_key, response_key in options:
+        if metar_key in metar_dict:
+            speech, text = get_response('Metar', 'both', response_key)
+            all_speech.append(speech)
+            all_text.append(text)
+    return ' '.join(all_speech), ' '.join(all_text)
+
 
 
 def get_flight_category(metar_dict, airport):
