@@ -48,7 +48,6 @@ def test_can_parse_airport_name_from_dialogflow():
     assert name == "London"
 
 
-@pytest.mark.skip('Makes network calls')
 def test_end_to_end_api():
     """ Tests the API end-end """
 

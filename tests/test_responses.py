@@ -72,7 +72,6 @@ def test_get_flight_categories():
     assert speech == expected
 
 
-# @pytest.mark.skip('not yet complete')
 def test_can_get_metar_parsed():
     """ Tests the parsed/read METAR response can be returned """
     metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
