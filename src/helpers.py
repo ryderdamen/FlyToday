@@ -73,9 +73,19 @@ def parse_metar_to_dict(aviation_gov_soup):
     """
     metar = aviation_gov_soup.find('metar')
     dictionary = {}
+    sky_conditions = []
     for tag in metar:
+        if tag.name == 'sky_condition':
+            try:
+                sky_conditions.append({
+                    'cloud_base_ft_agl': tag['cloud_base_ft_agl'],
+                    'sky_cover': tag['sky_cover']
+                })
+            except (TypeError, KeyError):
+                pass
         if tag.name and tag.string:
             dictionary[tag.name] = tag.string
+    dictionary['sky_conditions'] = sky_conditions
     return dictionary
 
 

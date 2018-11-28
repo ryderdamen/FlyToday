@@ -4,6 +4,7 @@
 import logging
 import weather
 from helpers import get_standard_error_message, get_response
+import phonetic_alphabet as alpha
 
 
 def get_wind_information(metar_dict, airport):
@@ -52,21 +53,72 @@ def get_metar_parsed(metar_dict, airport):
     """ Returns the human-readable version of the METAR """
     all_speech = []
     all_text = []
-    options = [
-        ('flight_category', 'FlightCategory'),
-        ('temp_c', 'Temperature'),
-        ('elevation', 'Elevation'),
-        ('wind_speed_kt', 'Wind'),
-        ('altim_in_hg', 'Altimeter'),
-        ('altim_in_hg', 'Altimeter'),
-    ]
-    for metar_key, response_key in options:
-        if metar_key in metar_dict:
-            speech, text = get_response('Metar', 'both', response_key)
-            all_speech.append(speech)
-            all_text.append(text)
-    return ' '.join(all_speech), ' '.join(all_text)
 
+    # Get variables (or None)
+    station_id = weather.get_station_id(metar_dict)
+    flight_category = weather.get_flight_category(metar_dict)
+    wind_speed, wind_dir = weather.get_wind_information(metar_dict)
+    visibility, visibility_km = weather.get_visibility(metar_dict)
+    altimeter = weather.get_altimeter(metar_dict)
+    temp_c, temp_f = weather.get_temperature(metar_dict)
+    dew_c, dew_f = weather.get_dewpoint(metar_dict)
+    obs_time, relative_time = weather.get_time(metar_dict)
+    sky_conditions = weather.get_sky_conditions(metar_dict)
+
+    # Apply Phonetic Alphabet
+    station_id = alpha.read(station_id)
+    obs_tme = alpha.read(obs_time)
+    wind_speed = alpha.read(wind_speed)
+    wind_dir = alpha.read(wind_dir)
+    visibility = alpha.read(visibility)
+    altimeter = alpha.read(altimeter)
+    temp_c = alpha.read(temp_c)
+    dew_c = alpha.read(dew_c)
+
+    if station_id:
+        all_speech.append(station_id + ' - ' + airport.title() + ' - METAR.')
+        all_text.append(station_id + ' - ' + airport.title() + ' - METAR.')
+    if obs_tme and relative_time:
+        speech, text = get_response('Metar', 'both', 'Time')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if wind_speed and wind_dir:
+        speech, text = get_response('Metar', 'both', 'Wind')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if flight_category:
+        speech, text = get_response('Metar', 'both', 'FlightCategory')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if visibility:
+        speech, text = get_response('Metar', 'both', 'Visibility')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if altimeter:
+        speech, text = get_response('Metar', 'both', 'Altimeter')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if temp_c:
+        speech, text = get_response('Metar', 'both', 'Temperature')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if dew_c:
+        speech, text = get_response('Metar', 'both', 'Dewpoint')
+        all_speech.append(speech.format(**locals()))
+        all_text.append(text.format(**locals()))
+    if sky_conditions:
+        sc_speech = "Sky Conditions: "
+        sc_text = "Sky Conditions: "
+        speech, text = get_response('Metar', 'both', 'SkyCondition')
+        for condition, agl in sky_conditions:
+            agl = alpha.read(agl)
+            sc_speech += speech.format(**locals()) + ' '
+            sc_text += text.format(**locals()) + ' '
+        all_speech.append(sc_speech)
+        all_text.append(sc_text)
+            
+
+    return ' '.join(all_speech), ' '.join(all_text)
 
 
 def get_flight_category(metar_dict, airport):

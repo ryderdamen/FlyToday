@@ -37,61 +37,28 @@ Elevation:
     text: "{airport} Elevation: {elevation_m} meters ({elevation_f} feet) ASL"
 Metar:
   Time:
-    speech: "Time: {time} ( {minutes_old} minutes old )."
-    text: "Time: {time} ( {minutes_old} minutes old )."
+    speech: "Posted At: {obs_time} Zulu ({relative_time})."
+    text: "Posted At: {obs_time} Zulu ({relative_time})."
   Temperature:
-    speech: "The temperature is {temp_c} ({temp_f} °F)"
-    text: "Temperature: {temp_c} °C ({temp_f} °F)"
+    speech: "Temperature {temp_c}."
+    text: "Temperature: {temp_c}."
+  Dewpoint:
+    speech: "Dewpoint {dew_c}."
+    text: "Dewpoint: {dew_c}."
   Visibility:
-    speech:
-    text:
+    speech: "Visibility {visibility}."
+    text: "Visibility: {visibility}."
   Wind:
-    speech:
-    text:
+    speech: "Winds {wind_dir} at {wind_speed} knots."
+    text: "Winds: {wind_dir} at {wind_speed} knots."
   Altimeter:
-    speech:
-    text:
-  Elevation:
-    speech:
-    text:
+    speech: "Altimeter {altimeter}."
+    text: "Altimeter: {altimeter}."
   FlightCategory:
     speech: "Field is {flight_category}."
-    text: "Field is {flight_category}."
-  Numbers:
-    0: zero
-    1: one
-    2: two
-    3: three
-    4: four
-    5: five
-    6: six
-    7: seven
-    8: eight
-    9: niner
-  Alphabet:
-    a: alpha
-    b: bravo
-    c: charlie
-    d: delta
-    e: echo
-    f: foxtrot
-    g: golf
-    h: hotel
-    i: india
-    j: juliet
-    k: kilo
-    l: lima
-    n: november
-    m: mike
-    o: oscar
-    p: papa
-    q: quebec
-    r: romeo
-    s: sierra
-    t: tango
-    u: uniform
-    v: victor
-    w: whiskey
-    x: x-ray
-    y: yankee
-    z: zulu
+    text: "Field: {flight_category}."
+  SkyCondition:
+    speech: "{condition} at {agl}."
+    text: "{condition} at {agl}."
+  
+  
