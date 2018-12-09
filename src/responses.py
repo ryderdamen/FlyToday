@@ -121,8 +121,6 @@ def get_metar_parsed(metar_dict, airport):
             sc_text += text.format(**locals()) + ' '
         all_speech.append(sc_speech)
         all_text.append(sc_text)
-            
-
     return ' '.join(all_speech), ' '.join(all_text)
 
 

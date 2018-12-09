@@ -42,6 +42,7 @@ def build_response(request_json):
         'get_visibility': responses.get_visibility,
         'get_temperature': responses.get_temperature,
         'get_metar_raw': responses.get_metar_raw,
+        'get_metar_parsed': responses.get_metar_parsed,
         'get_altimeter': responses.get_altimeter,
     }
 
