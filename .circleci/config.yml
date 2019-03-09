@@ -28,10 +28,10 @@ jobs:
   test:
     docker:
       - image: circleci/python:3.7
-    - attach_workspace:
-        at: ~/FlyToday
     working_directory: ~/FlyToday
     steps:
+      - attach_workspace:
+          at: ~/FlyToday
       - run:
           name: Run unit tests
           command: |
@@ -40,10 +40,10 @@ jobs:
   lint:
     docker:
       - image: circleci/python:3.7
-    - attach_workspace:
-        at: ~/FlyToday
     working_directory: ~/FlyToday
     steps:
+      - attach_workspace:
+          at: ~/FlyToday
       - run:
           name: Check pycodestyle
           command: |
