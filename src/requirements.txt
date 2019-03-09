@@ -3,7 +3,7 @@ attrs==18.2.0
 beautifulsoup4==4.6.3
 certifi==2018.8.24
 chardet==3.0.4
-dateparser==0.7.0
+dateparser==0.7.1
 idna==2.7
 more-itertools==4.3.0
 phonetic-alphabet==0.1.0
@@ -19,3 +19,4 @@ six==1.11.0
 timeago==1.0.8
 tzlocal==1.5.1
 urllib3==1.23
+pycodestyle==2.5.0

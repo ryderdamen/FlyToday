@@ -10,7 +10,7 @@ import logging
 
 def get_standard_error_message():
     """Returns a standard error message
-    
+
     Returns:
         string -- The standard error message
     """
@@ -19,10 +19,10 @@ def get_standard_error_message():
 
 def get_icao_code_from_dialogflow(request_dictionary):
     """Returns the ICAO code or None from the request dictionary
-    
+
     Arguments:
         request_dictionary {dict} -- The JSON request object from DF as a dictionary
-    
+
     Returns:
         String|None -- The ICAO code string, or None
     """
@@ -34,10 +34,10 @@ def get_icao_code_from_dialogflow(request_dictionary):
 
 def get_airport_name_from_dialogflow(request_dictionary):
     """Returns the airport name or None from the request dictionary
-    
+
      Arguments:
         request_dictionary {dict} -- The JSON request object from DF as a dictionary
-    
+
     Returns:
         String|None -- The airport name string, or None
     """
@@ -49,10 +49,10 @@ def get_airport_name_from_dialogflow(request_dictionary):
 
 def get_intent(request_dictionary):
     """Gets the intent of the current conversation
-    
+
     Arguments:
         request_dictionary {dict} -- The JSON request object from DF as a dictionary
-    
+
     Returns:
         String - Intent of the conversation
     """
@@ -64,10 +64,10 @@ def get_intent(request_dictionary):
 
 def parse_metar_to_dict(aviation_gov_soup):
     """Parses the METAR BS-XML object to a KV dictionary
-    
+
     Arguments:
         aviation_gov_soup {BeautifulSoupObject} -- Object with METAR info
-    
+
     Returns:
         dictionary -- Dictionary of values in the metar, or empty dict if none
     """
@@ -90,8 +90,8 @@ def parse_metar_to_dict(aviation_gov_soup):
 
 
 def get_response(category, speech_or_text='both', key="standard"):
-    """Gets a response from the YAML dictionary 
-    
+    """Gets a response from the YAML dictionary
+
     Arguments:
         category {string} -- Category of the response (base of the yaml file)
         speech_or_text {string} -- "speech" or "text" or "both"
@@ -112,10 +112,10 @@ def get_response(category, speech_or_text='both', key="standard"):
 
 def get_weather_from_aviation_gov(icao_code, **kwargs):
     """Gets weather information from aviation.gov
-    
+
     Arguments:
         icao_code {string} -- the ICAO code as provided by the user
-    
+
     Returns:
         BeautifulSoup Object || None -- Returns a BS Object if successful
     """

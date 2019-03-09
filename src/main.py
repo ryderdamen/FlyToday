@@ -13,10 +13,10 @@ import responses
 
 def build_response(request_json):
     """Builds the response from the request
-    
+
     Arguments:
         request_json {dict} -- The dictionary request object
-    
+
     Returns:
         string -- The string reponse message
     """
@@ -27,7 +27,7 @@ def build_response(request_json):
     if not icao_code:
         logging.error('No ICAO code provided.')
         return helpers.get_standard_error_message(), helpers.get_standard_error_message()
-    
+
     # Call Aviation.gov
     bs_data = helpers.get_weather_from_aviation_gov(icao_code)
     metar_dict = helpers.parse_metar_to_dict(bs_data)
@@ -49,16 +49,16 @@ def build_response(request_json):
     if intent not in intents:
         logging.error('An unexpected intent occured: ' + intent)
         return helpers.get_standard_error_message(), helpers.get_standard_error_message()
-    
+
     return intents[intent](metar_dict, airport_name)
 
 
 def main(request):
     """Handles the main logic of the webhook
-    
+
     Arguments:
         request {request} -- The request object as provided by GCF
-    
+
     Returns:
         String -- A JSON response
     """
