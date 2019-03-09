@@ -50,7 +50,7 @@ def get_altimeter(metar_dict):
 
 def get_temperature(metar_dict):
     """ Returns the current temperature in celcius and fahrenheit """
-    if not 'temp_c' in metar_dict:
+    if 'temp_c' not in metar_dict:
         return None, None
     temp_c = float(metar_dict['temp_c'])
     temp_f = _convert_c_to_f(temp_c)
@@ -59,7 +59,7 @@ def get_temperature(metar_dict):
 
 def get_dewpoint(metar_dict):
     """ Returns the current dewpoint in Celcius and Fahrenheit """
-    if not 'dewpoint_c' in metar_dict:
+    if 'dewpoint_c' not in metar_dict:
         return None, None
     dew_c = float(metar_dict['dewpoint_c'])
     dew_f = _convert_c_to_f(dew_c)
@@ -68,7 +68,7 @@ def get_dewpoint(metar_dict):
 
 def get_elevation(metar_dict):
     """ Returns the elevation of the aerodrome """
-    if not 'elevation_m' in metar_dict:
+    if 'elevation_m' not in metar_dict:
         return None, None
     elevation_m = float(metar_dict['elevation_m'])
     elevation_f = _convert_meters_to_feet(elevation_m)
@@ -77,14 +77,14 @@ def get_elevation(metar_dict):
 
 def get_metar_raw(metar_dict):
     """ Returns the raw METAR data """
-    if not 'raw_text' in metar_dict:
+    if 'raw_text' not in metar_dict:
         return None
     return metar_dict['raw_text'].replace('\n', '')
 
 
 def get_flight_category(metar_dict):
     """Gets the flight category from the metar dictionary"""
-    if not 'flight_category' in metar_dict:
+    if 'flight_category' not in metar_dict:
         logging.error('flight_category not in metar_dict')
         return None
     flight_category = metar_dict['flight_category'].strip().upper()
@@ -93,7 +93,7 @@ def get_flight_category(metar_dict):
 
 def get_time(metar_dict):
     """ Returns the absolute and relative time of the METAR """
-    if not 'observation_time' in metar_dict:
+    if 'observation_time' not in metar_dict:
         logging.error('No observation time in metar_dict')
         return None, None
     zulu = dateparser.parse(metar_dict['observation_time']).replace(tzinfo=None)
@@ -111,7 +111,7 @@ def get_station_id(metar_dict):
 
 def get_sky_conditions(metar_dict):
     """ Returns list of sky conditions """
-    if not 'sky_conditions' in metar_dict:
+    if 'sky_conditions' not in metar_dict:
         return None
     if metar_dict['sky_conditions'] == []:
         return None

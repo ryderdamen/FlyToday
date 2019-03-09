@@ -3,34 +3,60 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.1
-    working_directory: ~/repo
+      - image: circleci/python:3.7
+    working_directory: ~/FlyToday
     steps:
       - checkout
-
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "src/requirements.txt" }}
           - v1-dependencies-
-
       - run:
           name: install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r src/requirements.txt
-
       - save_cache:
           paths:
             - ./venv
           key: v1-dependencies-{{ checksum "src/requirements.txt" }}
-        
+      - persist_to_workspace:
+          root: ~/FlyToday
+          paths:
+            - ./
+  test:
+    docker:
+      - image: circleci/python:3.7
+    - attach_workspace:
+        at: ~/FlyToday
+    working_directory: ~/FlyToday
+    steps:
       - run:
-          name: run tests
+          name: Run unit tests
           command: |
             . venv/bin/activate
             make test
-
-      - store_artifacts:
-          path: test-reports
-          destination: test-reports
+  lint:
+    docker:
+      - image: circleci/python:3.7
+    - attach_workspace:
+        at: ~/FlyToday
+    working_directory: ~/FlyToday
+    steps:
+      - run:
+          name: Check pycodestyle
+          command: |
+            . venv/bin/activate
+            make lint
+workflows:
+  version: 2.1
+  build-test-lint:
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
+      - lint:
+        requires:
+          - build

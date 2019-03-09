@@ -7,7 +7,7 @@ from tests.helpers import get_data_directory
 from bs4 import BeautifulSoup
 
 
-metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
+metar = open(os.path.join(get_data_directory(), 'metar.txt'), 'r').read()
 metar_dict = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
 
 
@@ -37,7 +37,7 @@ def test_get_visibility():
     vis, vis_km = weather.get_visibility(metar_dict)
     assert vis == '1.5'
     assert vis_km == '2.4'
-    
+
 
 def test_when_no_visibility_return_none():
     temp_dict = metar_dict

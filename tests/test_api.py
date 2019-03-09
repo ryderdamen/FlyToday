@@ -21,7 +21,7 @@ def test_can_get_aviation_gov_site():
 
 def test_can_convert_metar_to_dict():
     """ Tests that the api can convert metar raw data to a dictionary """
-    metar = open(os.path.join(get_data_directory(), 'metar.txt'),'r').read()
+    metar = open(os.path.join(get_data_directory(), 'metar.txt'), 'r').read()
     dictionary = helpers.parse_metar_to_dict(BeautifulSoup(metar, features='html.parser'))
     assert len(dictionary) == 17
     assert 'sky_conditions' in dictionary
@@ -57,7 +57,7 @@ def test_end_to_end_api():
         def get_json(self):
             """ Returns Sample JSON """
             return load_sample_dialogflow_request()
-    
+
     response = api.main(RequestTest())
     error = {
         'fulfillmentText': helpers.get_standard_error_message()
