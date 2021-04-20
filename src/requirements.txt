@@ -8,7 +8,7 @@ idna==2.7
 more-itertools==4.3.0
 phonetic-alphabet==0.1.0
 pluggy==0.7.1
-py==1.6.0
+py==1.10.0
 pytest==3.8.1
 python-dateutil==2.7.5
 pytz==2018.7
